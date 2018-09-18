@@ -10,13 +10,44 @@ class CelestialHome extends StatefulWidget {
 
 class CelestialState extends State<CelestialHome> {
 
+  final TextEditingController _weightController = new TextEditingController();
+
+
   int radioValue = 0;
+  double _finalResult = 0.0;
+  String _formattedText = '';
 
   void handleRadioValueChanged(int value) {
     setState(() {
       radioValue = value;
-      print(radioValue);
+
+      switch(radioValue) {
+        case 0:
+          _finalResult = calculateWeight(_weightController.text, 0.06);
+          _formattedText = 'Your weight on Pluto is ${_finalResult.toStringAsFixed(1)}';
+          break;
+        case 1:
+          _finalResult = calculateWeight(_weightController.text, 0.38);
+          _formattedText = 'Your weight on Mars is ${_finalResult.toStringAsFixed(1)}';
+          break;
+        case 2:
+          _finalResult = calculateWeight(_weightController.text, 0.91);
+          _formattedText = 'Your weight on Venus is ${_finalResult.toStringAsFixed(1)}';
+          break;
+      }
     });
+  }
+
+  double calculateWeight(String text, double planetConstant) {
+
+    if (int.parse(text).toString().isNotEmpty && int.parse(text) > 0) {
+      return int.parse(text) * planetConstant;
+    }
+    else {
+      print('Wrong');
+    }
+
+    return int.parse("180") * 0.38;
   }
 
   @override
@@ -42,7 +73,7 @@ class CelestialState extends State<CelestialHome> {
               child: new Column(
                 children: <Widget>[
                   new TextField(
-                    controller: null,
+                    controller: _weightController,
                     keyboardType: TextInputType.number,
                     decoration: new InputDecoration(
                       labelText: 'Your Weight on Earth',
@@ -76,7 +107,7 @@ class CelestialState extends State<CelestialHome> {
                     ],
                   ),
                   new Padding(padding: const EdgeInsets.all(15.6)),
-                  new Text('Hello There',
+                  new Text('$_formattedText lbs',
                   style: new TextStyle(
                     color: Colors.white,
                     fontSize: 19.4,
