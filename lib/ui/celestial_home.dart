@@ -107,7 +107,9 @@ class CelestialState extends State<CelestialHome> {
                     ],
                   ),
                   new Padding(padding: const EdgeInsets.all(15.6)),
-                  new Text('$_formattedText lbs',
+
+                  new Text(
+                    _weightController.text.isEmpty ? "Please enter weight" : '$_formattedText lbs',
                   style: new TextStyle(
                     color: Colors.white,
                     fontSize: 19.4,
